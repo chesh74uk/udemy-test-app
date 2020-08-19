@@ -7,7 +7,7 @@ class UsersController < ApplicationController
    def create
        @user = User.new(user_params)
        if @user.save
-           flash[:notice] = "User signed in"
+           flash[:notice] = "#{@user.username} signed in"
            redirect_to articles_path
        else
            render 'new'
