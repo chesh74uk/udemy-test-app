@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
            flash[:notice] = "Logged in ok"
            redirect_to user
        else
-           flash.now[:alert] = "You've messed it up"
+           flash.now[:alert] = "You've messed up the login"
            render 'new'
        end 
 
