@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     
     def require_user
         if !logged_in?
-            flash[:alert] = "Nope, not happening, no way!"
+            flash[:danger] = "Nope, not happening, no way!"
             redirect_to login_path
         end
     end 

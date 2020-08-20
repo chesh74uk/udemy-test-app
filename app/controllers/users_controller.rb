@@ -20,7 +20,7 @@ class UsersController < ApplicationController
    
    def update
        if @user.update(user_params)
-           flash[:notice] = "Profile updated"
+           flash[:success] = "Profile updated"
            redirect_to @user
        else
            render 'edit'
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
        @user = User.new(user_params)
        if @user.save
            session[:user_id] = @user.id
-           flash[:notice] = "#{@user.username} signed in"
+           flash[:success] = "#{@user.username} signed in"
            redirect_to articles_path
        else
            render 'new'
@@ -41,8 +41,8 @@ class UsersController < ApplicationController
    
    def destroy
        @user.destroy
-       session[:user_id] = nil
-       flash[:notice] = "Everything has gone...."
+       session[:user_id] = nil if @user == current_user
+       flash[:success] = "Everything has gone...."
        redirect_to articles_path
    end
    
@@ -57,8 +57,8 @@ class UsersController < ApplicationController
    end
    
    def require_same_user
-        if current_user != @user
-            flash[:alert] = "Not your user, stobbit!"
+        if current_user != @user &&  !current_user.admin?
+            flash[:danger] = "Not your user, stobbit!"
             redirect_to @user
         end
     end

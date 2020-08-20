@@ -22,7 +22,7 @@ class ArticlesController < ApplicationController
         @article = Article.new(article_params)
         @article.user = current_user
         if @article.save
-            flash[:notice] = "Article created"
+            flash[:success] = "Article created"
             redirect_to article_path(@article)
         else
             render 'new'
@@ -31,7 +31,7 @@ class ArticlesController < ApplicationController
     
     def update
         if @article.update(article_params)
-            flash[:notice] = "Article updated"
+            flash[:success] = "Article updated"
             redirect_to @article
         else
             render 'edit'
@@ -40,7 +40,7 @@ class ArticlesController < ApplicationController
     
     def destroy
         if  @article.destroy
-            flash[:notice] = "Article deleted"
+            flash[:success] = "Article deleted"
             redirect_to articles_path
         else 
             render 'index'
@@ -58,8 +58,8 @@ class ArticlesController < ApplicationController
     end 
     
     def require_same_user
-        if current_user != @article.user_id
-            flash[:alert] = "Not your article, go away"
+        if current_user != @article.user_id && !current_user.admin?
+            flash[:danger] = "Not your article, go away"
             redirect_to @article
         end
     end
